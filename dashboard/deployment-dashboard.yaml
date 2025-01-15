@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lucascarvalho-dashboard
+  labels:
+    app: lucascarvalho-dashboard
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lucascarvalho-dashboard
+  template:
+    metadata:
+      labels:
+        app: lucascarvalho-dashboard
+    spec:
+      containers: 
+      - name: dashboard
+        image: luccaspc/dashboard
+        ports:
+        - containerPort: 8050
+        env:
+        - name: REDIS_IP
+          value: "192.168.121.48"
