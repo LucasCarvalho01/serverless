@@ -35,6 +35,13 @@ def decode_zip_from_base64(base64_content, target_dir):
         f.write(base64.b64decode(base64_content))
     return zip_path
 
+def load_pyfile():
+    with open("/opt/usermodule.py", "r") as f:
+        module_name = f.stem
+        spec = importlib.util.spec_from_file_location(module_name, f)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+
 def load_all_modules_from_dir(directory):
     modules = {}
     for py_file in Path(directory).glob("**/*.py"):
@@ -63,6 +70,7 @@ def execute_dynamic_function(input, context):
     
     with tempfile.TemporaryDirectory() as temp_dir:
         zip_path = decode_zip_from_base64(USER_CODE_BASE64, temp_dir)
+        load_pyfile()
         extract_zip(zip_path, temp_dir)
         usercode_last_update = datetime.now(pytz.timezone('America/Sao_Paulo')).strftime('%Y-%m-%d %H:%M:%S')
         modules = load_all_modules_from_dir(temp_dir)
