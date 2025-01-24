@@ -8,6 +8,6 @@ kind: ConfigMap
 metadata:
   creationTimestamp: "2025-01-08T14:30:58Z"
   name: lucascarvalho
-  namespace: lucascarvalho
+  namespace: lucassilva
   resourceVersion: "13605664"
   uid: 763a8214-96b8-451c-bd14-f44a280864c8
