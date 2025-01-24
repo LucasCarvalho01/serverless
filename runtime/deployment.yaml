@@ -2,19 +2,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: serverless-redis
+  name: serverless-redis-lucassilva
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: serverless-redis
+      app: serverless-redis-lucassilva
   template:
     metadata:
       labels:
-        app: serverless-redis
+        app: serverless-redis-lucassilva
     spec:
       containers:
-      - name: serverless-redis
+      - name: serverless-redis-lucassilva
         image: lucasgabrios/serverless:1.0.0
         imagePullPolicy: Always
         resources:
