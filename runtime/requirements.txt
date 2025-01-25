@@ -1,2 +1,8 @@
 redis
 pytz
+matplotlib
+numpy
+pandas
+requests
+sklearn
+tqdm
