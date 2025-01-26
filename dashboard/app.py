@@ -42,19 +42,16 @@ def update_graphs(n):
     if not data:
         return dash.no_update, dash.no_update, dash.no_update
 
-    # CPU
     cpu_data = {k: v for k, v in data.items() if 'cpu_percent' in k}
     cpu_df = pd.DataFrame({'CPU Core': list(cpu_data.keys()), 'Utilização (%)': list(cpu_data.values())})
     cpu_fig = px.bar(cpu_df, x='CPU Core', y='Utilização (%)', title='Uso de CPU por core')
     cpu_fig.update_yaxes(range=[0, 100])
 
-    # Memory
     memory_data = {k: v for k, v in data.items() if 'memory' in k}
     memory_df = pd.DataFrame({'Métrica': list(memory_data.keys()), 'Valor (%)': list(memory_data.values())})
     memory_fig = px.bar(memory_df, x='Métrica', y='Valor (%)', title='% de uso de cache da memória')
     memory_fig.update_yaxes(range=[0, 100])
 
-    # Network
     network_data = {k: v for k, v in data.items() if 'network' in k}
     network_df = pd.DataFrame({'Métrica': list(network_data.keys()), 'Valor (%)': list(network_data.values())})
     network_fig = px.bar(network_df, x='Métrica', y='Valor (%)', title='% de bytes enviados')
