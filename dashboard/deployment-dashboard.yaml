@@ -21,4 +21,4 @@ spec:
         - containerPort: 8050
         env:
         - name: REDIS_IP
-          value: "192.168.121.48"
+          value: "192.168.121.187"

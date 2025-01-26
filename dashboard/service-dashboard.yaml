@@ -10,4 +10,4 @@ spec:
   - protocol: TCP
     port: 8050
     targetPort: 8050
-    nodePort: 52001
+    nodePort: 52002

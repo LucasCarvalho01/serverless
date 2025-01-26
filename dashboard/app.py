@@ -6,7 +6,7 @@ import dash
 from dash import dcc, html
 import os
 
-REDIS_IP = os.getenv('REDIS_IP', '0.0.0.0')
+REDIS_IP = os.getenv('REDIS_IP', '192.168.121.187')
 
 redis_client = redis.StrictRedis(host=REDIS_IP, port=6379, decode_responses=True)
 
@@ -25,15 +25,15 @@ app.layout = html.Div([
         interval=10000,  
         n_intervals=0
     ),
-    dcc.Graph(id='cpu-usage-graph'),
-    dcc.Graph(id='memory-usage-graph'),
-    dcc.Graph(id='network-usage-graph')
+    dcc.Graph(id='cpu-usage'),
+    dcc.Graph(id='memory-usage'),
+    dcc.Graph(id='network-usage')
 ])
 
 @app.callback(
-    [dash.dependencies.Output('cpu-usage-graph', 'figure'),
-     dash.dependencies.Output('memory-usage-graph', 'figure'),
-     dash.dependencies.Output('network-usage-graph', 'figure')],
+    [dash.dependencies.Output('cpu-usage', 'figure'),
+     dash.dependencies.Output('memory-usage', 'figure'),
+     dash.dependencies.Output('network-usage', 'figure')],
     [dash.dependencies.Input('interval-component', 'n_intervals')]
 )
 def update_graphs(n):
@@ -45,19 +45,19 @@ def update_graphs(n):
     # CPU
     cpu_data = {k: v for k, v in data.items() if 'cpu_percent' in k}
     cpu_df = pd.DataFrame({'CPU Core': list(cpu_data.keys()), 'Utilização (%)': list(cpu_data.values())})
-    cpu_fig = px.bar(cpu_df, x='CPU Core', y='Utilização (%)', title='CPU usage per core')
+    cpu_fig = px.bar(cpu_df, x='CPU Core', y='Utilização (%)', title='Uso de CPU por core')
     cpu_fig.update_yaxes(range=[0, 100])
 
     # Memory
     memory_data = {k: v for k, v in data.items() if 'memory' in k}
     memory_df = pd.DataFrame({'Métrica': list(memory_data.keys()), 'Valor (%)': list(memory_data.values())})
-    memory_fig = px.bar(memory_df, x='Métrica', y='Valor (%)', title='Percentage of memory caching content')
+    memory_fig = px.bar(memory_df, x='Métrica', y='Valor (%)', title='% de uso de cache da memória')
     memory_fig.update_yaxes(range=[0, 100])
 
     # Network
     network_data = {k: v for k, v in data.items() if 'network' in k}
     network_df = pd.DataFrame({'Métrica': list(network_data.keys()), 'Valor (%)': list(network_data.values())})
-    network_fig = px.bar(network_df, x='Métrica', y='Valor (%)', title='Percentage of outgoing traffic bytes')
+    network_fig = px.bar(network_df, x='Métrica', y='Valor (%)', title='% de bytes enviados')
     network_fig.update_yaxes(range=[0, 100])
 
     return cpu_fig, memory_fig, network_fig
